@@ -29,6 +29,23 @@ def todo_2():
 
     plt.imshow([digits.data[index]], cmap=plt.cm.gray_r)
     plt.show()
+    ## ADD
+    print(type(digits))
+    print(type(digits['data']))
+    print(type(digits['images']))
+
+    print(digits['images'])
+
+    print(digits['DESCR'])
+
+    axs, fig = plt.subplots(len(digits['target_names']), 5)
+
+    for class_n in digits['target_names']:
+        print(class_n)
+        for col in range(5):
+            axs[class_n][col].imshow(digits['images'][digits['target']==class_n][col])
+
+    plt.show()
 
 
 def todo_3():
@@ -77,6 +94,12 @@ def todo_4():
 
     plot_gallery('Olivetti faces', faces.images[:n_components])
     plt.show()
+    ## ADD3
+    X, Y = [faces['data'], faces['target']]
+    X_train, X_test, Y_train, Y_test = train_test_split(X,Y, test_size=0.2,stratify=Y)
+    print(f'target: {Y_test[:n_components]}')
+    plot_gallery('Olivetti faces test', X_test[:n_components])
+    plt.show()
 
 
 def todo_5():
@@ -105,10 +128,13 @@ def todo_6():
     plt.show()
 
     print(f'{y=}')
-
+    print("now")
     fig = plt.figure()
-    ax = Axes3D(fig)
-    ax.scatter(X[:, 0], X[:, 1], X[:, 2], s=25, c=y)
+    ax = fig.add_subplot(111, projection='3d')
+    ax.scatter(X[:, 0], X[:, 1], X[:, 2], c=y, marker='o')
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Z')
     plt.show()
 
 
@@ -147,6 +173,11 @@ def todo_8():
 
     battery_problem_data = np.loadtxt(fname='./../data/battery_problem_data.csv', delimiter=',')
     print(f'{battery_problem_data=}')
+    # ADD
+    import pandas as pd
+    df = pd.read_csv('./../data/battery_problem_data.csv')
+    X_train, X_test, y_train, y_test = train_test_split(df['charging'], df['watching'],random_state=42, test_size=0.3)
+
 
 
 def todo_9_10():
@@ -173,16 +204,32 @@ def todo_9_10():
     tree.plot_tree(clf, feature_names=['X1', 'X2'], filled=True, class_names=['0', '1'])
     plt.show()
 
+    # AND gate
+
+    X = [[0, 0],
+     [0, 1],
+     [1, 0],
+     [1, 1]]
+    y = [0, 0, 0, 1]
+
+    clf = DecisionTreeClassifier()
+    clf.fit(X, y)
+
+    print(clf.predict([[1, 1]]))   # Sprawdź sam(a) jakie będą wyniki dla innych danych wejściowych.
+    print(clf.predict([[0, 1]]))
+
+    tree.plot_tree(clf, feature_names=['X1', 'X2'], filled=True, class_names=['0', '1'])
+    plt.show()
 
 def main():
-    todo_2()
-    todo_3()
-    todo_4()
-    todo_5()
-    todo_6()
-    todo_6_2()
-    todo_7()
-    todo_8()
+    # todo_2()
+    # todo_3()
+    # todo_4()
+    # todo_5()
+    # todo_6()
+    # todo_6_2()
+    # todo_7()
+    # todo_8()
     todo_9_10()
 
 
